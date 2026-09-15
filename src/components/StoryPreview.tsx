@@ -27,9 +27,7 @@ export default function StoryPreview({
 
   return (
     <aside className="story-preview">
-      <header className="story-preview-header">
-        <h2>Story Preview</h2>
-      </header>
+      <h2>Story Preview</h2>
 
       <div className="story-path">
         {previewPath.map((sceneId, sceneIndex) => {
@@ -77,30 +75,28 @@ export default function StoryPreview({
                   </button>
                 )}
               </div>
-              <div className="player-scene-header">
-                {/*
-                  This is plain text, not a button.
-                  The preview cannot select scenes.
-                */}
-                <h3 className="preview-scene-title">
+              <p className="preview-scene-title">
+                <strong>
                   {scene.chapter}
-                </h3>
-              </div>
+                </strong>
+              </p>
 
               <p className="player-story">
-                {scene.storyText ||
+                &gt; {scene.storyText ||
                   "This scene has no story text yet."}
               </p>
 
               {selectedChoice && (
                 <div className="preview-result">
                   <p className="preview-result-label">
-                    Choice made:
+                    <strong>
+                      Choice made:
+                    </strong>
                   </p>
 
                   <i>
                     <p className="preview-choice-text">
-                      {selectedChoice.text ||
+                      &gt; {selectedChoice.text ||
                         "Untitled choice"}
                     </p>
                   </i>

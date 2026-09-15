@@ -69,17 +69,6 @@ function loadStory(): SavedStory {
   }
 }
 
-// const rootSceneId = crypto.randomUUID();
-
-// const initialScenes: Scenes = {
-//   [rootSceneId]: {
-//     id: rootSceneId,
-//     chapter: "Chapter 1",
-//     storyText: "",
-//     choices: []
-//   }
-// };
-
 type EditorScreenProps = {
   onHome: () => void;
   onPlay: () => void;
@@ -100,6 +89,8 @@ export default function EditorScreen({
 
   const [sceneHistory, setSceneHistory] =
     useState<string[]>([]);
+
+
 
   const [isPreviewVisible, setIsPreviewVisible] =
     useState<boolean>(() => {
@@ -207,6 +198,44 @@ export default function EditorScreen({
     );
 
     window.alert("Story saved.");
+  }
+
+  function handleExportStory() {
+    const storyToExport: SavedStory = {
+      rootSceneId,
+      scenes
+    };
+
+    const storyJson = JSON.stringify(
+      storyToExport,
+      null,
+      2
+    );
+
+    const jsonBlob = new Blob(
+      [storyJson],
+      {
+        type: "application/json"
+      }
+    );
+
+    const downloadUrl =
+      URL.createObjectURL(jsonBlob);
+
+    const downloadLink =
+      document.createElement("a");
+
+    downloadLink.href = downloadUrl;
+    downloadLink.download =
+      `story-${new Date()
+        .toISOString()
+        .slice(0, 10)}.json`;
+
+    document.body.appendChild(downloadLink);
+    downloadLink.click();
+    downloadLink.remove();
+
+    URL.revokeObjectURL(downloadUrl);
   }
 
   function handleChapterChange(chapter: string) {
@@ -378,39 +407,46 @@ export default function EditorScreen({
     <main>
       <h1>Story Editor</h1>
 
-      <button
-        type="button"
-        onClick={handleSaveStory}
-      >
-        Save story
-      </button>
+      <header>
+        <button
+          type="button"
+          onClick={handleSaveStory}
+        >
+          Save story
+        </button>
+        <button
+          type="button"
+          onClick={handleExportStory}
+        >
+          Export JSON
+        </button>
 
-      <button
-        type="button"
-        onClick={onHome}
-      >
-        Return Home
-      </button>
+        <button
+          type="button"
+          onClick={onHome}
+        >
+          Return Home
+        </button>
 
-      <button
-        type="button"
-        onClick={onPlay}
-      >
-        Play story
-      </button>
-      <br>
-      </br>
-      <button
-        type="button"
-        className="toggle-preview"
-        onClick={handleTogglePreview}
-        aria-expanded={isPreviewVisible}
-        aria-controls="story-preview-pane"
-      >
-        {isPreviewVisible
-          ? "Hide preview"
-          : "Show preview"}
-      </button>
+        <button
+          type="button"
+          onClick={onPlay}
+        >
+          Play story
+        </button>
+        <button
+          type="button"
+          className="toggle-preview"
+          onClick={handleTogglePreview}
+          aria-expanded={isPreviewVisible}
+          aria-controls="story-preview-pane"
+        >
+          {isPreviewVisible
+            ? "Hide preview"
+            : "Show preview"}
+        </button>
+      </header>
+
       <div className="editor-layout">
         <section className="editor-pane">
           <CurrentScene
@@ -435,16 +471,16 @@ export default function EditorScreen({
           </button>
         </section>
 
-        {isPreviewVisible && (
-          <div id="story-preview-pane">
-            <StoryPreview
-              rootSceneId={rootSceneId}
-              scenes={scenes}
-              scenePath={previewScenePath}
-              onJumpToScene={handlePreviewJump}
-            />
-          </div>
-        )}
+        <section className="preview-pane">
+          {isPreviewVisible && (<StoryPreview
+            rootSceneId={rootSceneId}
+            scenes={scenes}
+            scenePath={previewScenePath}
+            onJumpToScene={handlePreviewJump}
+          />
+          )}
+        </section>
+
       </div>
     </main>
   );

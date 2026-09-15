@@ -106,7 +106,7 @@ export default function CurrentScene({
                 key={choice.id}
               >
                 <span className="choice-id">
-                  {String(index + 1).padStart(2, "0")}
+                  &gt; {String(index + 1).padStart(2, "0")}
                 </span>
 
                 <input
@@ -128,9 +128,7 @@ export default function CurrentScene({
                     onNextScene(choice.nextSceneId);
                   }}
                 >
-                  Go to scene
-                  <br />
-                  {choice.nextSceneId}
+                  Next scene
                 </button>
 
                 <button
@@ -142,6 +140,7 @@ export default function CurrentScene({
                 >
                   Remove choice
                 </button>
+                <p className="choice-id">{choice.nextSceneId}</p>
               </div>
             );
           })}

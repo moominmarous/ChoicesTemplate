@@ -8,6 +8,9 @@ export default function App() {
 
   return (
     <>
+    <header>
+                                  
+    </header>
       {view === "home" && (
         <HomeScreen
           onCreateNew={() => {
