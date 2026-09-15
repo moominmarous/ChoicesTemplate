@@ -1,6 +1,16 @@
-# React + Vite
+# Choices Template
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+run with:
+```
+npm install
+npm run dev
+```
+
+Developed story saved in local storage. 
+
+# React + Vite Template
+
+This project uses a template with a minimal setup to get React working in Vite with HMR and some Oxlint rules.
 
 Currently, two official plugins are available:
 
